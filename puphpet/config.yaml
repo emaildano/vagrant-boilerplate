@@ -1,8 +1,8 @@
 ---
 vagrantfile-local:
     vm:
-        box: puphpet/ubuntu1404-x64
-        box_url: puphpet/ubuntu1404-x64
+        box: ubuntu/trusty64
+        box_url: ubuntu/trusty64
         hostname: null
         memory: '512'
         chosen_provider: virtualbox
@@ -54,9 +54,9 @@ vagrantfile-local:
     vagrant:
         host: detect
 server:
-    packages: {
+    packages:
+        - nodejs
         - npm
-    }
     dot_files:
         -
             bash_aliases: null
@@ -85,11 +85,11 @@ apache:
         - php
         - rewrite
     vhosts:
-        default:
-            servername: default.dev
+        localhost:
+            servername: localhost.dev
             serveraliases:
-                - www.default.dev
-            docroot: /var/www/default
+                - www.localhost.dev
+            docroot: /var/www/
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -106,27 +106,6 @@ apache:
             ssl_certs_dir: ''
     mod_pagespeed: '1'
     mod_spdy: 0
-nginx:
-    install: 0
-    settings:
-        default_vhost: 1
-        proxy_buffer_size: 128k
-        proxy_buffers: '4 256k'
-    vhosts:
-        default:
-            server_name: default.dev
-            server_aliases:
-                - www.default.dev
-            www_root: /var/www/default.dev
-            listen_port: '80'
-            index_files:
-                - index.html
-                - index.htm
-                - index.php
-            envvars:
-                - 'APP_ENV dev'
-            ssl_cert: ''
-            ssl_key: ''
 php:
     install: '1'
     version: '55'
@@ -145,63 +124,8 @@ php:
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
     timezone: America/New_York
-xdebug:
-    install: 0
-    settings:
-        xdebug.default_enable: '1'
-        xdebug.remote_autostart: '0'
-        xdebug.remote_connect_back: '1'
-        xdebug.remote_enable: '1'
-        xdebug.remote_handler: dbgp
-        xdebug.remote_port: '9000'
-drush:
-    install: 0
-    settings:
-        drush.tag_branch: 6.x
 mysql:
     install: '1'
     root_password: root
     adminer: '1'
     databases: {  }
-postgresql:
-    install: 0
-    settings:
-        root_password: '123'
-        user_group: postgres
-        encoding: UTF8
-        version: '9.3'
-    databases: {  }
-    adminer: 0
-mariadb:
-    install: 0
-    root_password: '123'
-    adminer: 0
-    databases: {  }
-    version: '10.0'
-mongodb:
-    install: 0
-    settings:
-        auth: 1
-        port: '27017'
-    databases: {  }
-redis:
-    install: 0
-    settings:
-        conf_port: '6379'
-beanstalkd:
-    install: 0
-    settings:
-        listenaddress: 0.0.0.0
-        listenport: '13000'
-        maxjobsize: '65535'
-        maxconnections: '1024'
-        binlogdir: /var/lib/beanstalkd/binlog
-        binlogfsync: null
-        binlogsize: '10485760'
-    beanstalk_console: 0
-    binlogdir: /var/lib/beanstalkd/binlog
-rabbitmq:
-    install: 0
-    settings:
-        port: '5672'
-
